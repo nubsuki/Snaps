@@ -13,7 +13,7 @@ Snaps is a lightweight screenshot tool for Wayland users, sitting quietly in you
 
 - 📷 Take a **Full Screenshot**
 - ✂️ Take a **Snip Screenshot** (select area)
-- 📁 Open your **Screenshots folder** quickly
+- 📁 Open your **Screenshots folder**
 
 ---
 
