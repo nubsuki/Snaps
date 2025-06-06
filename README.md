@@ -78,7 +78,7 @@ snaps
 
 Use the tray icon menu to take screenshots or open your screenshots folder.
 
-
+### Tested in Arch linux hyprland
 ---
 
 Enjoy snapping! 
