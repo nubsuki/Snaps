@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import gi
 import subprocess
 import os
@@ -5,6 +7,7 @@ import time
 from threading import Thread
 from pathlib import Path
 import shutil
+import webbrowser
 
 #check dependencies
 REQUIRED_COMMANDS = ["grim", "slurp", "wl-copy", "dunstify"]
@@ -39,7 +42,11 @@ save_location = Path.home() / "Pictures" / "Screenshots"
 save_location.mkdir(parents=True, exist_ok=True)  # Create if not exists
 
 #Path to your tray icon
-icon_path = os.path.abspath("icons/icon.svg")
+dev_icon_path = Path("icons/snaps.svg").resolve()
+system_icon_path = Path("/usr/share/icons/hicolor/scalable/apps/snaps.svg")
+
+icon_path = str(dev_icon_path if dev_icon_path.exists() else system_icon_path)
+
 if not Path(icon_path).exists():
     raise FileNotFoundError(f"Icon not found at: {icon_path}")
 
@@ -64,6 +71,11 @@ def take_snipshot(_=None):
 def quit_app(_=None):
     Gtk.main_quit()
 
+# Open GitHub page in default browser
+def open_github(_=None):
+    url = "https://github.com/nubsuki/Snaps"  # <-- Put your real GitHub URL here
+    webbrowser.open(url)
+
 #Set up tray icon
 indicator = AppIndicator3.Indicator.new(
     "snaps-tray",
@@ -83,6 +95,7 @@ def add_menu_item(label, callback):
 
 add_menu_item("📷 Full Screenshot", take_fullshot)
 add_menu_item("✂️ Snip Screenshot", take_snipshot)
+add_menu_item("About", open_github)
 menu.append(Gtk.SeparatorMenuItem())
 add_menu_item("❌ Quit", quit_app)
 
@@ -90,3 +103,7 @@ menu.show_all()
 indicator.set_menu(menu)
 
 Gtk.main()
+
+
+#Made by ©nubsuki
+#This project i made for my personal use

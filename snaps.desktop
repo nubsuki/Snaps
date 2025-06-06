@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Snaps Screenshot Tool
+Exec=snaps
+Icon=snaps
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupNotify=false
