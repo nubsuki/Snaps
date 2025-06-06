@@ -67,6 +67,10 @@ def take_snipshot(_=None):
     subprocess.run(f"grim -g '{area}' - | tee >(wl-copy) > '{filename}'", shell=True)
     subprocess.run(["dunstify", "✂️ Snip saved!"])
 
+#opens the screen shot fodler
+def open_screenshot_folder(_=None):
+    subprocess.Popen(["xdg-open", str(save_location)])
+
 #Quit function
 def quit_app(_=None):
     Gtk.main_quit()
@@ -95,6 +99,7 @@ def add_menu_item(label, callback):
 
 add_menu_item("📷 Full Screenshot", take_fullshot)
 add_menu_item("✂️ Snip Screenshot", take_snipshot)
+add_menu_item("📁 Screenshot", open_screenshot_folder)
 add_menu_item("About", open_github)
 menu.append(Gtk.SeparatorMenuItem())
 add_menu_item("❌ Quit", quit_app)
