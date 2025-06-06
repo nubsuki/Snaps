@@ -4,6 +4,29 @@ import os
 import time
 from threading import Thread
 from pathlib import Path
+import shutil
+
+#check dependencies
+REQUIRED_COMMANDS = ["grim", "slurp", "wl-copy", "dunstify"]
+
+def check_dependencies():
+    missing = [cmd for cmd in REQUIRED_COMMANDS if not shutil.which(cmd)]
+    if missing:
+        dialog = Gtk.MessageDialog(
+            message_type=Gtk.MessageType.ERROR,
+            buttons=Gtk.ButtonsType.CLOSE,
+            text="Missing dependencies",
+        )
+        dialog.format_secondary_text(
+            f"The following required tools are missing:\n" + "\n".join(missing)
+        )
+        dialog.run()
+        dialog.destroy()
+        exit(1)
+    else:
+        print("All dependencies found: " + ", ".join(REQUIRED_COMMANDS))
+
+check_dependencies()
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('AppIndicator3', '0.1')
@@ -11,11 +34,11 @@ gi.require_version('AppIndicator3', '0.1')
 from gi.repository import Gtk, AppIndicator3
 Gtk.Window.set_default_icon_name("snaps")
 
-# save location
+#save location
 save_location = Path.home() / "Pictures" / "Screenshots"
 save_location.mkdir(parents=True, exist_ok=True)  # Create if not exists
 
-# 🖼️ Path to your tray icon
+#Path to your tray icon
 icon_path = os.path.abspath("icons/icon.svg")
 if not Path(icon_path).exists():
     raise FileNotFoundError(f"Icon not found at: {icon_path}")
