@@ -67,9 +67,17 @@ def take_snipshot(_=None):
     subprocess.run(f"grim -g '{area}' - | tee >(wl-copy) > '{filename}'", shell=True)
     subprocess.run(["dunstify", "✂️ Snip saved!"])
 
-#opens the screen shot fodler
+#opens the screenshot saved fodler
 def open_screenshot_folder(_=None):
-    subprocess.Popen(["xdg-open", str(save_location)])
+    try:
+        subprocess.Popen(["xdg-open", str(save_location)])
+    except Exception:
+        # fallback to specific FM if needed
+        for fm in ["nautilus", "thunar", "dolphin", "pcmanfm"]:
+            if shutil.which(fm):
+                subprocess.Popen([fm, str(save_location)])
+                break
+
 
 #Quit function
 def quit_app(_=None):
@@ -77,7 +85,7 @@ def quit_app(_=None):
 
 # Open GitHub page in default browser
 def open_github(_=None):
-    url = "https://github.com/nubsuki/Snaps"  # <-- Put your real GitHub URL here
+    url = "https://github.com/nubsuki/Snaps"
     webbrowser.open(url)
 
 #Set up tray icon
@@ -99,8 +107,8 @@ def add_menu_item(label, callback):
 
 add_menu_item("📷 Full Screenshot", take_fullshot)
 add_menu_item("✂️ Snip Screenshot", take_snipshot)
-add_menu_item("📁 Screenshot", open_screenshot_folder)
-add_menu_item("About", open_github)
+add_menu_item("📁 Screenshots", open_screenshot_folder)
+add_menu_item("ⵌ About", open_github)
 menu.append(Gtk.SeparatorMenuItem())
 add_menu_item("❌ Quit", quit_app)
 
