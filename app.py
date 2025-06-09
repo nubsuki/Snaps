@@ -53,12 +53,22 @@ if not Path(icon_path).exists():
 
 #Full screenshot function
 def take_fullshot(_=None):
+    for i in range(3, 0, -1):
+        indicator.set_title(f"Taking screenshot in {i}...")
+        time.sleep(1)
+    indicator.set_title("Snaps Screenshot Tool")
+
     filename = save_location / f"full-{time.strftime('%F_%T')}.png"
     subprocess.run(f"grim - | tee >(wl-copy) > '{filename}'", shell=True)
     subprocess.run(["dunstify", "📷 Full screenshot saved!"])
 
 #Snip screenshot function
 def take_snipshot(_=None):
+    for i in range(3, 0, -1):
+        indicator.set_title(f"Select area in {i}...")
+        time.sleep(1)
+    indicator.set_title("Snaps Screenshot Tool")
+
     area = subprocess.getoutput("slurp").strip()
     if not area or "x" not in area or "," not in area:
         subprocess.run(["dunstify", "⚠️ Snip canceled or invalid area"])
@@ -105,12 +115,12 @@ def add_menu_item(label, callback):
     item.connect("activate", lambda w: Thread(target=callback).start())
     menu.append(item)
 
-add_menu_item("📷 Full Screenshot", take_fullshot)
-add_menu_item("✂️ Snip Screenshot", take_snipshot)
-add_menu_item("📁 Screenshots", open_screenshot_folder)
+add_menu_item(" Full Screenshot", take_fullshot)
+add_menu_item("󰩫 Snip Screenshot", take_snipshot)
+add_menu_item(" Screenshots", open_screenshot_folder)
 add_menu_item("ⵌ About", open_github)
 menu.append(Gtk.SeparatorMenuItem())
-add_menu_item("❌ Quit", quit_app)
+add_menu_item(" Quit", quit_app)
 
 menu.show_all()
 indicator.set_menu(menu)
